@@ -14,7 +14,7 @@ rewardrent=10;
 rewardmove=-2;
 maxmove=5;
 discountrate=0.9;
-convergencethreshold=0.001;
+convergencethreshold=0.0001;
 
 %%
 %initializing matrices
