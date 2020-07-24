@@ -1,4 +1,4 @@
-%% value=valueecal(maxcars,rewardmove,discountrate,TP1,TP2,ER1,ER2,valuemat,s1,s2,action)
+  %% value=valueecal(maxcars,rewardmove,discountrate,TP1,TP2,ER1,ER2,valuemat,s1,s2,action)
 %Calculates the value for given action
 function value=valueecal(maxcars,rewardmove,discountrate,TP1,TP2,ER1,ER2,valuemat,s1,s2,action)
 a=action;
