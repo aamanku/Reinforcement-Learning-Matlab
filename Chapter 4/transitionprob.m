@@ -1,9 +1,8 @@
-%% [TP,RP]=transitionprobandreward(maxcars,lambdarent,lambdareturn,rentreward)
-%Returns transition probability matrix and expected reward vector
+%% TP=transitionprob(maxcars,lambdarent,lambdareturn)
+%Returns transition probability matrix 
 
-function [TP,RP]=transitionprobandreward(maxcars,lambdarent,lambdareturn,rentreward)
-TP=zeros([maxcars+1 maxcars+1]);%transition probability matrix
-RP=zeros([maxcars+1 1]);%Expected Reward vector
+function TP=transitionprob(maxcars,lambdarent,lambdareturn)
+TP=zeros([maxcars+1 maxcars+1]);%transition probability matrixxp(-lambda);
 poisson=@(n,lambda)((lambda^n)/factorial(n))*exp(-lambda);
 %transition probability
 for curstate=0:maxcars %currentstate
@@ -15,15 +14,6 @@ for curstate=0:maxcars %currentstate
             TP(curstate+1,transtate+1)=TP(curstate+1,transtate+1)+returnp*rentp;
         end
     end
-end
-% Expected reward
-for curstate=0:maxcars
-    reward=0;
-    for rented=0:maxcars
-        rentp=poisson(rented,lambdarent);
-        reward=reward+rentreward*rentp*min(curstate,rented);
-    end
-    RP(curstate+1)=reward;
 end
 end
 

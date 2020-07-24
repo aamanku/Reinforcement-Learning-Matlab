@@ -18,10 +18,8 @@ convergencethreshold=0.001;
 
 %%
 %initializing matrices
-TP1=transitionprob(maxcars,lambdarent1,lambdaret1);
-ER1=expectedreward(maxcars,lambdarent1,rewardrent);
-TP2=transitionprob(maxcars,lambdarent2,lambdaret2);
-ER2=expectedreward(maxcars,lambdarent2,rewardrent);
+[TP1,RP1]=transitionprobandreward(maxcars,lambdarent1,lambdaret1,rewardrent);
+[TP2,RP2]=transitionprobandreward(maxcars,lambdarent2,lambdaret2,rewardrent);
 valuemat=zeros(maxcars+1);
 policymat=0*ones(maxcars+1);
 %%
@@ -36,9 +34,9 @@ while converror>=convergencethreshold
         for s2=0:maxcars
             amin=max(-maxmove,-s2);%getting the possible action
             amax=min(maxmove,s1);%
-            best=[amin;valueecal(maxcars,rewardmove,discountrate,TP1,TP2,ER1,ER2, valuemat,s1,s2,amin)];
+            best=[amin;valueecal(maxcars,rewardmove,discountrate,TP1,TP2,RP1,RP2, valuemat,s1,s2,amin)];
             for a=amin+1:amax
-                tempval=valueecal(maxcars,rewardmove,discountrate,TP1,TP2,ER1,ER2, valuemat,s1,s2,a);
+                tempval=valueecal(maxcars,rewardmove,discountrate,TP1,TP2,RP1,RP2, valuemat,s1,s2,a);
                 if tempval>best(2)
                     best(1)=a;
                     best(2)=tempval;
@@ -52,7 +50,6 @@ while converror>=convergencethreshold
     drawnow limitrate
     xlabel('#Cars at second location')
     ylabel('#Cars at first location')
-    title(['$v_{\pi_{*}}$'],'Interpreter','latex')
     converror=max(max(abs(previousvaluemat-valuemat)));
     fprintf('Iteration = %d | ConvergenceError = %s \n',iterpolicyeval,max(max(abs(previousvaluemat-valuemat))))
     iterpolicyeval=iterpolicyeval+1;
@@ -64,9 +61,9 @@ for s1=0:maxcars
     for s2=0:maxcars
         amin=max(-maxmove,-s2);
         amax=min(maxmove,s1);
-        best=[amin;valueecal(maxcars,rewardmove,discountrate,TP1,TP2,ER1,ER2, valuemat,s1,s2,amin)];
+        best=[amin;valueecal(maxcars,rewardmove,discountrate,TP1,TP2,RP1,RP2, valuemat,s1,s2,amin)];
         for a=amin+1:amax
-            tempval=valueecal(maxcars,rewardmove,discountrate,TP1,TP2,ER1,ER2, valuemat,s1,s2,a);
+            tempval=valueecal(maxcars,rewardmove,discountrate,TP1,TP2,RP1,RP2, valuemat,s1,s2,a);
             if tempval>best(2)
                 best(1)=a;
                 best(2)=tempval;
@@ -78,10 +75,8 @@ for s1=0:maxcars
 end
 %plotting
 figure('Name','Optimal Policy')
-[x,y]=meshgrid(0:20,0:20);
-surf(x,y,0*policymat,policymat)
-xlabel('#Cars at second location')
-ylabel('#Cars at first location')
-title(['$\pi_{*}$'],'Interpreter','latex')
-view(0,90)
+% imagesc(policymat)
+[x,y]=
+set(gca,'YDir','normal');
 colorbar
+
